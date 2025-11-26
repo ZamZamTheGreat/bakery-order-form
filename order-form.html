@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery Order Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .order-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .client-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .client-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .order-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .total-section {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid #27ae60;
+        }
+
+        .total-items {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="order-container">
+        <div class="header">
+            <div class="client-badge" id="clientBadge">Loading...</div>
+            <h1>🍞 Daily Bakery Order</h1>
+            <p id="welcomeMessage">Complete your daily bread and pastry order</p>
+        </div>
+
+        <div class="form-content">
+            <!-- Client Information -->
+            <div class="client-info">
+                <div class="form-group">
+                    <label for="clientName" class="required">Business Name</label>
+                    <input type="text" id="clientName" name="clientName" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="deliveryDate" class="required">Delivery Date</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Contact Person</label>
+                    <input type="text" id="contactPerson" name="contactPerson" placeholder="Name of person placing order">
+                </div>
+            </div>
+
+            <!-- Bread Products -->
+            <div class="order-section">
+                <h2 class="section-title">🥖 Bread Products</h2>
+                <div class="product-grid">
+                    <!-- White Bread -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">White Bread Sliced</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('whiteBread', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('whiteBread', -1)">-</button>
+                            <input type="number" id="whiteBread" name="whiteBread" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('whiteBread', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('whiteBread', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Brown Bread -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Brown Bread Sliced</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBread', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBread', -1)">-</button>
+                            <input type="number" id="brownBread" name="brownBread" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBread', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBread', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- French Loaves -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">French Loaves</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('frenchLoaves', -5)">-5</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('frenchLoaves', -1)">-</button>
+                            <input type="number" id="frenchLoaves" name="frenchLoaves" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('frenchLoaves', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('frenchLoaves', 5)">+5</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- School Bread -->
+            <div class="order-section">
+                <h2 class="section-title">🎒 School Bread</h2>
+                <div class="product-grid">
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">School Bread Small</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadSmall', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadSmall', -1)">-</button>
+                            <input type="number" id="schoolBreadSmall" name="schoolBreadSmall" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadSmall', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadSmall', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">School Bread Big</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadBig', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadBig', -1)">-</button>
+                            <input type="number" id="schoolBreadBig" name="schoolBreadBig" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadBig', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('schoolBreadBig', 10)">+10</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotdog Rolls -->
+            <div class="order-section">
+                <h2 class="section-title">🌭 Hotdog Rolls</h2>
+                <div class="product-grid">
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Plain Hotdog Rolls</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHotdog', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHotdog', -1)">-</button>
+                            <input type="number" id="plainHotdog" name="plainHotdog" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHotdog', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHotdog', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Sesame Hotdog Rolls</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHotdog', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHotdog', -1)">-</button>
+                            <input type="number" id="sesameHotdog" name="sesameHotdog" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHotdog', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHotdog', 10)">+10</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hamburger Buns -->
+            <div class="order-section">
+                <h2 class="section-title">🍔 Hamburger Buns</h2>
+                <div class="product-grid">
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Plain Hamburger Buns</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHamburger', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHamburger', -1)">-</button>
+                            <input type="number" id="plainHamburger" name="plainHamburger" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHamburger', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('plainHamburger', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Sesame Hamburger Buns</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHamburger', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHamburger', -1)">-</button>
+                            <input type="number" id="sesameHamburger" name="sesameHamburger" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHamburger', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('sesameHamburger', 10)">+10</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialty Items -->
+            <div class="order-section">
+                <h2 class="section-title">⭐ Specialty Items</h2>
+                <div class="product-grid">
+                    <!-- Portuguese Rolls -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Portuguese Rolls</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('portugueseRolls', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('portugueseRolls', -1)">-</button>
+                            <input type="number" id="portugueseRolls" name="portugueseRolls" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('portugueseRolls', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('portugueseRolls', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Cocktail Hamburger -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Cocktail Hamburger</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('cocktailHamburger', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('cocktailHamburger', -1)">-</button>
+                            <input type="number" id="cocktailHamburger" name="cocktailHamburger" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('cocktailHamburger', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('cocktailHamburger', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Minnie French Loaf -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Minnie French Loaf</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('minnieFrench', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('minnieFrench', -1)">-</button>
+                            <input type="number" id="minnieFrench" name="minnieFrench" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('minnieFrench', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('minnieFrench', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Footlongs -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Footlongs</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('footlongs', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('footlongs', -1)">-</button>
+                            <input type="number" id="footlongs" name="footlongs" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('footlongs', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('footlongs', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Brown Brotchens -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Brown Brotchens</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBrotchens', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBrotchens', -1)">-</button>
+                            <input type="number" id="brownBrotchens" name="brownBrotchens" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBrotchens', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brownBrotchens', 10)">+10</button>
+                        </div>
+                    </div>
+
+                    <!-- Brotchens -->
+                    <div class="product-item">
+                        <div class="product-header">
+                            <span class="product-name">Brotchens</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brotchens', -10)">-10</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brotchens', -1)">-</button>
+                            <input type="number" id="brotchens" name="brotchens" class="quantity-input" value="0" min="0" onchange="updateTotal()">
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brotchens', 1)">+</button>
+                            <button type="button" class="quantity-btn" onclick="changeQuantity('brotchens', 10)">+10</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="total-section">
+                <div class="total-items">Total Items: <span id="totalQuantity">0</span></div>
+            </div>
+
+            <!-- Additional Notes -->
+            <div class="notes-section">
+                <div class="form-group">
+                    <label for="specialInstructions">Special Instructions or Notes</label>
+                    <textarea id="specialInstructions" name="specialInstructions" placeholder="Any special delivery instructions, timing preferences, or other notes..."></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="button" class="submit-btn" onclick="submitOrder()" id="submitBtn">
+                    📦 Submit Order
+                </button>
+                <div id="message" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SIMPLIFIED CLIENT DATABASE - NO ORDER LIMITS
+        const clientDatabase = {
+            'usavedorado': { displayName: 'Usave Dorado', color: '#e74c3c' },
+            'usavesoweto': { displayName: 'Usave Soweto', color: '#3498db' },
+            'usaveokuryangava': { displayName: 'Usave Okuryangava', color: '#9b59b6' },
+            'usavehavanna': { displayName: 'Usave Havanna', color: '#1abc9c' },
+            'ausspamplatz': { displayName: 'Ausspamplatz Self Service', color: '#f39c12' },
+            'namica': { displayName: 'Namica Supermarket', color: '#d35400' },
+            'okahandja': { displayName: 'Okahandja Wholesalers', color: '#27ae60' },
+            'eliznheim': { displayName: 'Eliznheim Spar', color: '#8e44ad' },
+            'millenium': { displayName: 'Millenium Fuel (Hakahana)', color: '#c0392b' },
+            'mrg': { displayName: 'Mr G Home Shop', color: '#16a085' },
+            'tatedama': { displayName: 'Tate Dama', color: '#7f8c8d' },
+            'gracius': { displayName: 'Gracius Enterprises', color: '#34495e' },
+            'thinktwice': { displayName: 'Think Twice Otiemuse', color: '#e67e22' },
+            'manchester': { displayName: 'Manchester', color: '#95a5a6' },
+            'magnolia': { displayName: 'Magnolia', color: '#d35400' },
+            'kathospital': { displayName: 'Katutura Hospital', color: '#c0392b' },
+            'hartlief': { displayName: 'Hartlief', color: '#16a085' },
+            'hihibird': { displayName: 'Hi Hi Bird', color: '#8e44ad' },
+            'belmond': { displayName: 'Belmond Investments', color: '#27ae60' },
+            'rhinopark': { displayName: 'Rhino Park', color: '#2980b9' },
+            'slservice': { displayName: 'SL Service', color: '#f39c12' },
+            'meatoo': { displayName: 'Meatoo', color: '#d35400' },
+            'louisbotha': { displayName: 'Louis Botha T/A', color: '#7f8c8d' },
+            'survivor': { displayName: 'Survivor', color: '#34495e' },
+            'halaal': { displayName: 'Halaal', color: '#2c3e50' },
+            'home786': { displayName: '786 Home Shop & T/A', color: '#e74c3c' }
+        };
+
+        // Initialize the form
+        function initializeForm() {
+            // Get client from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            let clientId = urlParams.get('client');
+            
+            // If no client in URL, check if we have it stored
+            if (!clientId) {
+                clientId = localStorage.getItem('lastClient');
+            }
+            
+            if (clientId && clientDatabase[clientId]) {
+                const client = clientDatabase[clientId];
+                setupClientForm(client, clientId);
+            } else {
+                // No valid client - redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Set up the form for a specific client
+        function setupClientForm(client, clientId) {
+            // Update UI
+            document.getElementById('clientName').value = client.displayName;
+            document.getElementById('clientBadge').textContent = client.displayName;
+            document.getElementById('clientBadge').style.backgroundColor = client.color;
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${client.displayName}! Complete your daily order below.`;
+            
+            // Store client for future visits
+            localStorage.setItem('lastClient', clientId);
+        }
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('deliveryDate').min = today;
+
+        // Set default delivery date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('deliveryDate').value = tomorrow.toISOString().split('T')[0];
+
+        function changeQuantity(productId, change) {
+            const input = document.getElementById(productId);
+            let newValue = parseInt(input.value) + change;
+            newValue = Math.max(0, newValue);
+            input.value = newValue;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                if (input.id !== 'deliveryDate') {
+                    total += parseInt(input.value) || 0;
+                }
+            });
+            document.getElementById('totalQuantity').textContent = total;
+        }
+
+        async function submitOrder() {
+            const submitBtn = document.getElementById('submitBtn');
+            const messageDiv = document.getElementById('message');
+            const clientName = document.getElementById('clientName').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+            
+            if (!clientName || !deliveryDate) {
+                showMessage('Please fill in Business Name and Delivery Date', 'error');
+                return;
+            }
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Collect order data
+            const orderData = {
+                clientName: clientName,
+                deliveryDate: deliveryDate,
+                contactPerson: document.getElementById('contactPerson').value,
+                items: {
+                    whiteBread: document.getElementById('whiteBread').value,
+                    brownBread: document.getElementById('brownBread').value,
+                    frenchLoaves: document.getElementById('frenchLoaves').value,
+                    schoolBreadSmall: document.getElementById('schoolBreadSmall').value,
+                    schoolBreadBig: document.getElementById('schoolBreadBig').value,
+                    plainHotdog: document.getElementById('plainHotdog').value,
+                    sesameHotdog: document.getElementById('sesameHotdog').value,
+                    plainHamburger: document.getElementById('plainHamburger').value,
+                    sesameHamburger: document.getElementById('sesameHamburger').value,
+                    portugueseRolls: document.getElementById('portugueseRolls').value,
+                    cocktailHamburger: document.getElementById('cocktailHamburger').value,
+                    minnieFrench: document.getElementById('minnieFrench').value,
+                    footlongs: document.getElementById('footlongs').value,
+                    brownBrotchens: document.getElementById('brownBrotchens').value,
+                    brotchens: document.getElementById('brotchens').value
+                },
+                specialInstructions: document.getElementById('specialInstructions').value,
+                totalItems: document.getElementById('totalQuantity').textContent,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Here you would send to your Google Apps Script
+                // For now, we'll simulate success
+                const response = await simulateSubmission(orderData);
+                
+                if (response.success) {
+                    showMessage('Order submitted successfully! Thank you.', 'success');
+                    resetForm();
+                } else {
+                    showMessage('Error submitting order: ' + response.message, 'error');
+                }
+            } catch (error) {
+                showMessage('Network error: ' + error.toString(), 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📦 Submit Order';
+            }
+        }
+
+        function simulateSubmission(orderData) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log('Order Data:', orderData);
+                    resolve({ success: true, message: 'Order received' });
+                }, 1500);
+            });
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.color = type === 'error' ? '#e74c3c' : '#27ae60';
+            messageDiv.style.fontWeight = 'bold';
+            
+            setTimeout(() => {
+                messageDiv.textContent = '';
+            }, 5000);
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                if (input.id !== 'deliveryDate') {
+                    input.value = 0;
+                }
+            });
+            document.getElementById('contactPerson').value = '';
+            document.getElementById('specialInstructions').value = '';
+            updateTotal();
+        }
+
+        // Initialize the form when page loads
+        document.addEventListener('DOMContentLoaded', initializeForm);
+    </script>
+</body>
+</html>
